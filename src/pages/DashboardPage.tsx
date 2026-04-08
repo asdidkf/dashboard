@@ -1,5 +1,4 @@
 
-
 import { useEffect, useMemo, useState } from "react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -11,13 +10,13 @@ import { PresentationChartBarIcon } from "@heroicons/react/24/outline";
 import type { Product } from "my-types";
 import { getAllProducts } from "../api/productapi";
 
-// ─── Paleta de colores para los gráficos ────────────────────────────────────
+// Colores
 const COLORS = [
   "#3b82f6", "#10b981", "#f59e0b", "#ef4444",
   "#8b5cf6", "#06b6d4", "#ec4899", "#84cc16",
 ];
 
-// ─── Subcomponentes locales ──────────────────────────────────────────────────
+//Subcomponentes locales
 
 const KpiCard: React.FC<{ label: string; value: string }> = ({ label, value }) => (
   <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
@@ -33,13 +32,13 @@ const ChartCard: React.FC<{ title: string; children: React.ReactNode }> = ({ tit
   </div>
 );
 
-// ─── Estilos reutilizables ───────────────────────────────────────────────────
+// Estilos reutilizables
 const inputClass =
   "rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20";
 
 const labelClass = "block text-xs font-medium text-gray-600 mb-1";
 
-// ─── Componente principal ────────────────────────────────────────────────────
+// Componente principal
 const DashboardPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -67,7 +66,7 @@ const DashboardPage: React.FC = () => {
     );
   }, [products, selectedCategory, minPrice, maxPriceStr]);
 
-  // ── KPIs ──────────────────────────────────────────────────────────────────
+  // KPIs
   const totalProducts = filtered.length;
   const uniqueCategories = new Set(filtered.map((p) => p.category.name)).size;
   const avgPrice =
@@ -79,9 +78,9 @@ const DashboardPage: React.FC = () => {
       ? filtered.reduce((s, p) => s + p.rating, 0) / filtered.length
       : 0;
 
-  // ── Transformaciones de datos ─────────────────────────────────────────────
+  // Transformaciones de datos
 
-  // Gráfico 1 y 2: cantidad de productos por categoría
+  // cantidad de productos por categoría
   const countByCategory = useMemo(() => {
     const map: Record<string, number> = {};
     filtered.forEach((p) => {
@@ -92,13 +91,13 @@ const DashboardPage: React.FC = () => {
       .sort((a, b) => b.count - a.count);
   }, [filtered]);
 
-  // Gráfico 3: dispersión precio vs calificación
+  // dispersión precio vs calificación
   const scatterData = useMemo(
     () => filtered.map((p) => ({ price: p.price, rating: p.rating, name: p.title })),
     [filtered]
   );
 
-  // Gráfico 4: precio promedio por categoría
+  // precio promedio por categoría
   const avgPriceByCategory = useMemo(() => {
     const map: Record<string, { sum: number; count: number }> = {};
     filtered.forEach((p) => {
@@ -120,7 +119,7 @@ const DashboardPage: React.FC = () => {
     setMaxPriceStr("");
   };
 
-  // ── Render ────────────────────────────────────────────────────────────────
+  // Render
   return (
     <div className="space-y-6">
 

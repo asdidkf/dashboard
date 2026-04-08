@@ -11,9 +11,9 @@ export const getAllProducts = async (): Promise<Product[]> => {
 
 export const createProduct = async (data: NewProductInput): Promise<Product> => {
   try {
-    const res = await api.post<ApiResponse<Product>>("/product", data);
+    const res = await api.post<Product>("/product", data);
 
-    return res.data.payload;
+    return res.data;
   } catch (error) {
     const err = error as AxiosError;
 
@@ -25,9 +25,9 @@ export const createProduct = async (data: NewProductInput): Promise<Product> => 
 
 export const updateProduct = async (id: number, data: NewProductInput): Promise<Product> => {
   try {
-    const res = await api.patch<ApiResponse<Product>>(`/product/${id}`, data);
+    const res = await api.patch<Product>(`/product/${id}`, data);
 
-    return res.data.payload;
+    return res.data;
   } catch (error) {
     const err = error as AxiosError;
 
